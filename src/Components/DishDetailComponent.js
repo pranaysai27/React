@@ -21,7 +21,7 @@ function RenderDish({dish}){
 		</div>
 	)
 }
-function RenderComments({comments}){
+function RenderComments({comments,addComment,dishId}){
 	if(comments!=null){
 		return(
 			<div >
@@ -39,7 +39,7 @@ function RenderComments({comments}){
 						)
 					})
 				}
-				<CommentForm/>
+				<CommentForm dishId={dishId} addComment={addComment} />
 			</div>
 			
 		)
@@ -65,7 +65,9 @@ const  DishDetail = (props) => {
 				<RenderDish dish={props.dish}/>
 				<div className = 'col-12 col-md-5 m-1'>
 					<h4>Comments</h4>
-					<RenderComments comments={props.comments}/>
+					<RenderComments comments={props.comments}
+                                    addComment={props.addComment}
+                                    dishId = {props.dish.id} />
 					
 				</div>
 			</div>
@@ -78,14 +80,20 @@ class CommentForm extends Component {
     constructor(props) {
         super(props)
         this.state= {
-            isModalOpen:false
+            isModalOpen:false,
+            isNavOpen : false
         }
         this.toggleModal=this.toggleModal.bind(this);
+        this.handleSubmit=this.handleSubmit.bind(this)
     }
     toggleModal() {
         this.setState({
             isModalOpen: !this.state.isModalOpen
         });
+    }
+    handleSubmit(values) {
+        this.toggleModal()
+        this.props.addComment(this.props.dishId,values.rating,values.username,values.comment)
     }
     render() {
         return(
@@ -121,8 +129,8 @@ class CommentForm extends Component {
                                         model=".username"
                                         show="touched"
                                         messages= {{
-                                            minLength:"Must be greater than 2 numbers",
-                                            maxLength:"Must be 15 numbers or less",
+                                            minLength:"Must be greater than 2 characters",
+                                            maxLength:"Must be 15 characters or less",
                                         }}
                                     />
                                 </Col>

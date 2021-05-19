@@ -36,6 +36,7 @@ address{
     opacity: 0.01;
     transform: translateX(-100%);
 }
+
 .page-enter-active {
     opacity: 1;
     transform: translateX(0%);
@@ -46,6 +47,7 @@ address{
     opacity: 1;
     transform: translateX(0%);
 }
+
 .page-exit-active {
     opacity: 0.01;
     transform: translateX(100%);
